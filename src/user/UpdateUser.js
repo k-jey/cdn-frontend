@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link, Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import Layout from '../core/Layout'
 import { updateUser, getUser } from '../api'
 
@@ -8,14 +8,14 @@ const UpdateUser = ({ match }) => {
         name: '',
         email: '',
         contact: '',
-        userRole: 2,
         skillSet: [],
         hobby:'',
         error: '',
         success: false,
-        redirectToProfile: false,
-        formData: ""
+        redirectToProfile: false
     })
+
+    const { name, email, contact, hobby, skillSet, error, success, redirectToProfile } = values
 
     const loadUser = (id) => {
         getUser(id).then(data => {
@@ -30,8 +30,7 @@ const UpdateUser = ({ match }) => {
                     contact: data.contact,
                     skillSet: data.skillSet,
                     shipping: data.shipping,
-                    hobby: data.hobby,
-                    formData: new FormData()
+                    hobby: data.hobby
                 });
             }
         })
@@ -41,11 +40,7 @@ const UpdateUser = ({ match }) => {
         loadUser(match.params.id)
     }, [])
 
-    const { name, email, contact, userRole, hobby, skillSet, error, success, redirectToProfile, formData } = values
-
     const handleChange = name => event => {
-        const value = event.target.value
-        formData.set(name, value)
         setValues({ ...values, error: false, [name]: event.target.value })
     }
 
@@ -55,7 +50,7 @@ const UpdateUser = ({ match }) => {
             ...values,
             error: false
         })
-        updateUser(match.params.id, formData)
+        updateUser(match.params.id, { name, email, contact, hobby, skillSet })
         .then(data => {
             if(data.error) {
                 setValues({

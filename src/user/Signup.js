@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
 import Layout from '../core/Layout'
 import { register } from '../api'
 
@@ -7,7 +6,6 @@ const Signup = () => {
     const [values, setValues] = useState({
         name: '',
         email: '',
-        password: '',
         contact: '',
         userRole: 2,
         skillSet: [],
@@ -16,7 +14,7 @@ const Signup = () => {
         success: false
     })
 
-    const { name, email, password, contact, userRole, hobby, skillSet, error, success } = values
+    const { name, email, contact, userRole, hobby, skillSet, error, success } = values
 
     const handleChange = name => event => {
         setValues({ ...values, error: false, [name]: event.target.value })
@@ -28,7 +26,7 @@ const Signup = () => {
             ...values,
             error: false
         })
-        register({ name, email, password, contact, skillSet, hobby, userRole })
+        register({ name, email, contact, skillSet, hobby, userRole })
         .then(data => {
             if(data.error) {
                 setValues({
@@ -41,7 +39,6 @@ const Signup = () => {
                     ...values,
                     name: '',
                     email: '',
-                    password: '',
                     contact: '',
                     skillSet: [],
                     hobby:'',
@@ -61,10 +58,6 @@ const Signup = () => {
             <div className="form-group">
                 <label className="text-muted">Email</label>
                 <input type="email" onChange={handleChange('email')} className="form-control" value={email} />
-            </div>
-            <div className="form-group">
-                <label className="text-muted">Password</label>
-                <input type="password" onChange={handleChange('password')} className="form-control" value={password} />
             </div>
             <div className="form-group">
                 <label className="text-muted">Contact Number</label>
@@ -90,7 +83,7 @@ const Signup = () => {
 
     const showSuccess = () => (
         <div className="alert alert-info" style={{ display: success ? '' : "none" }}>
-            New account is created. Please <Link to="/signin">Signin</Link>
+            User has been created !
         </div>
     )
 

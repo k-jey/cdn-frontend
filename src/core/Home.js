@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Layout from './Layout'
-import { getUsers } from '../api'
+import { getUsers, deleteUser } from '../api'
 
 const Home = () => {
 
@@ -14,6 +14,16 @@ const Home = () => {
                 setError(data.error)
             } else {
                 setUserList(data)
+            }
+        })
+    }
+
+    const removeDeveloper = (userId) => {
+        deleteUser(userId).then((data) => {
+            if (data.error) {
+                setError(data.error)
+            } else {
+                loadDevelopers()
             }
         })
     }
@@ -43,10 +53,7 @@ const Home = () => {
                         <Link to={`/user/${user._id}`}>
                             <span className="badge badge-warning badge-pill">Update</span>
                         </Link>&nbsp;
-                        <span 
-                            
-                            className="badge badge-danger badge-pill"
-                        >Delete</span>
+                        <button onClick={() => (removeDeveloper(user._id))} className="badge badge-danger badge-pill">Delete</button>
                         </th>
                         <td>{user.email}</td>
                         <td>{user.email}</td>

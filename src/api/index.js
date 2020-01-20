@@ -35,14 +35,13 @@ export const getUser = (userId) => {
 }
 
 export const updateUser = (userId, user) => {
-    // console.log(user)
     return fetch(`${API}/user/${userId}`, {
         method: "PUT",
         headers: {
             Accept: "application/json",
             "Content-Type": "application/json"
         },
-        body: user
+        body: JSON.stringify(user)
     })
     .then(response => {
         return response.json()
@@ -50,4 +49,12 @@ export const updateUser = (userId, user) => {
     .catch(err => {
         console.log(err)
     })
+}
+
+export const deleteUser = (userId) => {
+    return fetch(`${API}/users/${userId}`, {
+        method: "delete"
+    }).then(response => {
+        return response.json()
+    }).catch(err => console.log(err))
 }
